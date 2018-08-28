@@ -233,7 +233,7 @@ export default {
 </script>
 
 <style lang="css">
-.container.grid-list-lg .layout .card-item{
+.container.grid-list-lg .layout .flex.card-item{
   flex: 1 1 19%;
   padding-top: 19%;
   position: relative;
