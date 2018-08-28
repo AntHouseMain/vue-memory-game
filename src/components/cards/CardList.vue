@@ -1,4 +1,5 @@
 <template lang="html">
+<div>
   <v-layout>
     <v-flex xs12 sm6 offset-sm3>
       <v-layout>
@@ -20,6 +21,20 @@
       </v-card>
     </v-flex>
   </v-layout>
+  <v-dialog v-model="successfulDialog" max-width="700px">
+    <v-card>
+      <v-card-title>
+        Сongratulations!
+      </v-card-title>
+      <v-card-text green--text>
+        You won! Your time is {{ this.seconds}} seconds!
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="green" dark @click.stop="successfulDialog = false">ok</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</div>
 </template>
 
 <script>
@@ -35,6 +50,7 @@ export default {
       mainColor: '#009688',
       timer: null,
       seconds: 0,
+      secondsTimer: null,
       cards: [
         {
           bc: '#EF5350',
@@ -136,7 +152,9 @@ export default {
           bc: '#DDDDDD',
           id: 25
         }
-      ]
+      ],
+      cardsLeft: 25,
+      successfulDialog: false
     };
   },
   methods: {
@@ -186,9 +204,14 @@ export default {
       this.selectedItems.forEach(val => {
         val.style.display = 'none';
       });
+      this.cardsLeft -= 2;
+      if (this.cardsLeft == 1) {
+        clearInterval(this.secondsTimer);
+        this.successfulDialog = true;
+      }
     },
     onStartTimer() {
-      let seconds = setInterval(() => {
+      this.secondsTimer = setInterval(() => {
         this.seconds++;
       }, 1000);
     }
